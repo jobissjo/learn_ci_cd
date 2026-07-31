@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
-from typing import List
-from fastapi import FastAPI, HTTPException, status
+
 from beanie import PydanticObjectId
+from fastapi import FastAPI, HTTPException, status
 
 from db import init_db
 from models import Item
@@ -30,7 +30,7 @@ async def create_item(item_in: ItemCreate):
     return item
 
 
-@app.get("/items/", response_model=List[ItemResponse])
+@app.get("/items/", response_model=list[ItemResponse])
 async def get_items(limit: int = 10, skip: int = 0):
     return await Item.find_all().skip(skip).limit(limit).to_list()
 
@@ -72,4 +72,3 @@ async def delete_item(item_id: PydanticObjectId):
             detail=f"Item with id '{item_id}' not found",
         )
     await item.delete()
-    return None

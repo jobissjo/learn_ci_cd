@@ -1,21 +1,21 @@
-from typing import Optional
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field
+
 from beanie import PydanticObjectId
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class ItemCreate(BaseModel):
     title: str = Field(..., min_length=1, max_length=100)
-    description: Optional[str] = None
+    description: str | None = None
     price: float = Field(default=0.0, ge=0.0)
     is_available: bool = True
 
 
 class ItemUpdate(BaseModel):
-    title: Optional[str] = Field(None, min_length=1, max_length=100)
-    description: Optional[str] = None
-    price: Optional[float] = Field(None, ge=0.0)
-    is_available: Optional[bool] = None
+    title: str | None = Field(None, min_length=1, max_length=100)
+    description: str | None = None
+    price: float | None = Field(None, ge=0.0)
+    is_available: bool | None = None
 
 
 class ItemResponse(BaseModel):
@@ -23,7 +23,7 @@ class ItemResponse(BaseModel):
 
     id: PydanticObjectId
     title: str
-    description: Optional[str] = None
+    description: str | None = None
     price: float
     is_available: bool
     created_at: datetime
