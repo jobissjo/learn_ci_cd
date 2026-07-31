@@ -23,14 +23,23 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-
           script: |
+            set -e
             cd /home/ubuntu/learn_ci_cd
 
+            echo "==> Fetching latest code..."
             git fetch origin
             git reset --hard origin/main
 
-            source .venv/bin/activate
-            uv sync
+            echo "==> Syncing production dependencies..."
+            export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
+            uv sync --frozen --no-dev
 
+            echo "==> Restarting systemd service..."
             sudo systemctl restart learn-ci-cd
+
+            echo "==> Verifying deployment health..."
+            sleep 3
+            curl -f http://localhost:8000/health || (echo "Health check failed!" && sudo systemctl status learn-ci-cd --no-pager && exit 1)
+
+            echo "==> Deployment successful!"
