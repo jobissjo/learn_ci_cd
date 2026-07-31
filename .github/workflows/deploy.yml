@@ -33,4 +33,4 @@ jobs:
             source .venv/bin/activate
             uv sync
 
-            sudo systemctl restart myapp
+            sudo systemctl restart learn-ci-cd
