@@ -25,14 +25,12 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
 
           script: |
-            cd /home/ubuntu/myproject
+            cd /home/ubuntu/learn_ci_cd
 
             git fetch origin
             git reset --hard origin/main
 
             source .venv/bin/activate
             uv sync
-
-            alembic upgrade head
 
             sudo systemctl restart myapp
