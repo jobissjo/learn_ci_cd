@@ -1,0 +1,19 @@
+[project]
+name = "learn-ci-cd"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beanie<2.0.0",
+    "fastapi[standard]>=0.141.1",
+    "motor==3.7.1",
+    "python-dotenv>=1.2.2",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+]
